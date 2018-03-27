@@ -66,10 +66,20 @@ object casaPepeYJulian{
 }
 
 object cuentaCombinada{
-	var cuentaPrimaria = 0
-	var cuentaSecundaria = 0
-	
-	method saldo() = cuentaPrimaria + cuentaSecundaria
-	
-	
+	var cPrimaria= cuentaDeJulian
+	var cSecundaria = cuentaDePepe
+	var saldo = cPrimaria.saldo() + cSecundaria.saldo()
+
+	method depositar(unaCantidadPesos) =
+	if (cSecundaria.saldo() < 1000) cSecundaria.depositar(unaCantidadPesos)  
+	else cPrimaria.depositar(unaCantidadPesos)
+
+	method extraer(unaCantidadPesos) =
+	if (cPrimaria.saldo() <= unaCantidadPesos) cPrimaria.extraer(unaCantidadPesos) 
+	else if(saldo < unaCantidadPesos) self.error('La cuenta no posee suficiente saldo')
+		else{ 
+		cSecundaria.extraer(unaCantidadPesos + cPrimaria.saldo())
+		cPrimaria.extraer(cPrimaria.saldo()) 		
+	}
 }
+
